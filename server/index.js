@@ -25,7 +25,7 @@ app.use("/api/auth", authRouter);
 app.use("/api/users", userRouter);
 app.use("/api/station", stationRouter);
 app.get("/api/get", (req, res) => {
-  res.status(404).json({ andrej: "Krychfalushij" });
+  res.json({ andrej: "Krychfalushij" });
 });
 
 const start = async () => {
