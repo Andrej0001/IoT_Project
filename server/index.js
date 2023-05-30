@@ -24,7 +24,7 @@ app.use(express.json());
 app.use("/api/auth", authRouter);
 app.use("/api/users", userRouter);
 app.use("/api/station", stationRouter);
-app.get("/", (req, res) => {
+app.get("/api/get", (req, res) => {
   res.status(404).json({ andrej: "Krychfalushij" });
 });
 
