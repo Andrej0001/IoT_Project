@@ -1,11 +1,15 @@
 {
-  "name": "auth",
+  "name": "app_monitoring",
   "version": "1.0.0",
   "main": "index.js",
-  "scripts": {
-    "start": "nodemon index.js"
+  "engines": {
+    "node":"14.x"
   },
-  "author": "",
+  "scripts": {
+    "start": "node index.js",
+    "nodemon": "nodemon index.js"
+  },
+  "author": "Andrij_Krycfalusij",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
