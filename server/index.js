@@ -21,12 +21,9 @@ const { wss } = require("./webSocket");
 app.use(cors());
 
 app.use(express.json());
-app.use("/api/auth", authRouter);
-app.use("/api/users", userRouter);
-app.use("/api/station", stationRouter);
-app.get("/api/get", (req, res) => {
-  res.json({ andrej: "Krychfalushij" });
-});
+app.use("/auth", authRouter);
+app.use("/users", userRouter);
+app.use("/station", stationRouter);
 
 const start = async () => {
   try {
