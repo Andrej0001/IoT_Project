@@ -14,6 +14,7 @@ import { Typography } from "@mui/material";
 import "./style.css";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { SERVER_URL } from "../constant/constant";
 
 function Dashboard(props) {
   const idStation = props.idDashboard;
@@ -26,7 +27,7 @@ function Dashboard(props) {
   const [selectedDate, setSelectedDate] = useState(
     new Date("Sun May 28 2023 17:57:04 GMT+0200")
   ); //Nastavení data pomocí komponenty react-datepicker
-  console.log(selectedDate);
+
   var inputDate = selectedDate; //datum z react-datepicker
   var date = new Date(inputDate);
   var outputDate = date.toISOString(); // Převod na formát ISO 8601
@@ -38,7 +39,7 @@ function Dashboard(props) {
       idStation: props.idDashboard,
       date: "Sun May 28 2023 17:57:04 GMT+0200",
     };
-    fetch("http://localhost:5003/station/temperature", {
+    fetch(`${SERVER_URL}/station/temperature`, {
       method: "POST",
       body: JSON.stringify(body),
       headers: {
@@ -59,7 +60,7 @@ function Dashboard(props) {
         idStation: props.idDashboard,
         date: outputDate,
       };
-      fetch("http://localhost:5003/station/temperature", {
+      fetch(`${SERVER_URL}/station/temperature`, {
         method: "POST",
         body: JSON.stringify(body),
         headers: {

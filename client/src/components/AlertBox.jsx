@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import Message from "./Message";
 import axios from "axios";
 import { useCookies } from "react-cookie";
+import { SERVER_URL } from "../constant/constant";
 
 const AlertBox = (props) => {
   const { title, id } = props;
@@ -15,7 +16,7 @@ const AlertBox = (props) => {
     const fetchData = async () => {
       const headers = { Authorization: `Bearer ${token}` };
       const response = await axios.get(
-        `http://localhost:5003/station/alert-get/${id}`,
+        `${SERVER_URL}/station/alert-get/${id}`,
         { headers }
       );
       setData(response.data.reverse());

@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
-//import { useCookies } from "react-cookie";
 import { Outlet } from "react-router-dom";
-// import axios from 'axios';
-
 import useGetAxios from "../hooks/useGetAxios";
-//import './App.css';
-
+import { SERVER_URL } from "../constant/constant";
 import Dashboard from "./../components/Dashboard";
-
 import { toast } from "react-toastify";
+import { CircularProgress } from "@mui/material";
+import MainLayout from "../layouts/MainLayout";
 
 const MainPage = (props) => {
   const [user] = useState({
@@ -19,7 +16,7 @@ const MainPage = (props) => {
   // const [cookies] = useCookies(["token"]);
 
   const { data, loading, error } = useGetAxios(
-    "http://localhost:5003/station/stationList"
+    `${SERVER_URL}/station/stationList`
   );
   useEffect(() => {
     if (error?.response.data?.message) {
@@ -28,7 +25,11 @@ const MainPage = (props) => {
   }, [error?.response.data?.message]);
 
   if (!data) {
-    return;
+    return (
+      <MainLayout>
+        <CircularProgress></CircularProgress>
+      </MainLayout>
+    );
   }
   //console.log(data);
   if (loading) {

@@ -3,19 +3,20 @@ import axios from "axios";
 import { useCookies } from "react-cookie";
 import useGetAxios from "../hooks/useGetAxios";
 import { Button, CircularProgress, List, ListItem } from "@mui/material";
-import { Typography } from "@mui/material";
+import { Typography, Box } from "@mui/material";
+import { SERVER_URL } from "../constant/constant";
 
 const AdminList = () => {
   const [cookies] = useCookies(["token"]);
   const token = cookies?.token;
   const [render, setRender] = useState(false);
-  const { data, loading, error } = useGetAxios("http://localhost:5003/users/");
+  const { data, loading, error } = useGetAxios(`${SERVER_URL}/users/`);
   const handleDeleteUser = async (userId) => {
     try {
       // const headers = { Authorization: `Bearer ${token}` };
       const config = {
         method: "post",
-        url: `http://localhost:5003/users/user-delete/${userId}`,
+        url: `${SERVER_URL}/users/user-delete/${userId}`,
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
@@ -43,7 +44,7 @@ const AdminList = () => {
     try {
       const config = {
         method: "post",
-        url: `http://localhost:5003/users/user-delete/${userId}`,
+        url: `${SERVER_URL}/users/user-delete/${userId}`,
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
@@ -71,65 +72,74 @@ const AdminList = () => {
   useEffect(() => {
     setRender((prev) => !prev);
   }, [render]);
+
+  if (loading) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <CircularProgress></CircularProgress>
+      </Box>
+    );
+  }
   return (
     <div>
-      {loading ? (
-        <CircularProgress /> // Show a loading spinner
-      ) : error ? (
-        <div>Error fetching data</div> // Show an error message
-      ) : (
-        <List>
-          {data.map((user) => (
-            <ListItem key={user._id}>
-              <div
-                className="adminItem"
-                style={{
-                  width: "100vh",
-                  display: "flex",
-                  justifyContent: "space-between",
-                  backgroundColor: "rgba(255, 253, 250, 0.5)",
-                  padding: "8px",
-                  margin: "1px",
-                  borderRadius: "10px",
-                }}
-              >
-                <div className="text_container" style={divTextStyle}>
-                  <Typography sx={{ color: "black", justifyContent: "center" }}>
-                    {" "}
-                    {user.email}{" "}
-                  </Typography>
-                  <Typography sx={{ color: "black", justifyContent: "center" }}>
-                    {" "}
-                    {user.roles[0]}{" "}
-                  </Typography>
-                </div>
-                <div
-                  className="button_container"
-                  style={{ display: "flex", justifyContent: "space-between" }}
-                >
-                  {user.roles[0] === "USER" && (
-                    <Button
-                      sx={{ margin: "0px 15px 0px 15px" }}
-                      variant="contained"
-                      color="primary"
-                      onClick={() => handleUpdateUser(user._id)}
-                    >
-                      set Admin
-                    </Button>
-                  )}
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    onClick={() => handleDeleteUser(user._id)}
-                  >
-                    Delete
-                  </Button>
-                </div>
+      <List>
+        {data?.map((user) => (
+          <ListItem key={user._id}>
+            <div
+              className="adminItem"
+              style={{
+                width: "100vh",
+                display: "flex",
+                justifyContent: "space-between",
+                backgroundColor: "rgba(255, 253, 250, 0.5)",
+                padding: "8px",
+                margin: "1px",
+                borderRadius: "10px",
+              }}
+            >
+              <div className="text_container" style={divTextStyle}>
+                <Typography sx={{ color: "black", justifyContent: "center" }}>
+                  {" "}
+                  {user.email}{" "}
+                </Typography>
+                <Typography sx={{ color: "black", justifyContent: "center" }}>
+                  {" "}
+                  {user.roles[0]}{" "}
+                </Typography>
               </div>
-            </ListItem>
-          ))}
-        </List>
-      )}
+              <div
+                className="button_container"
+                style={{ display: "flex", justifyContent: "space-between" }}
+              >
+                {user.roles[0] === "USER" && (
+                  <Button
+                    sx={{ margin: "0px 15px 0px 15px" }}
+                    variant="contained"
+                    color="primary"
+                    onClick={() => handleUpdateUser(user._id)}
+                  >
+                    set Admin
+                  </Button>
+                )}
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  onClick={() => handleDeleteUser(user._id)}
+                >
+                  Delete
+                </Button>
+              </div>
+            </div>
+          </ListItem>
+        ))}
+      </List>
     </div>
   );
 };

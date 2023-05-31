@@ -7,7 +7,7 @@ import axios from "axios";
 import { useCookies } from "react-cookie";
 import { toast } from "react-toastify";
 import { ThemeProvider } from "@mui/material";
-
+import { SERVER_URL } from "../constant/constant";
 // import { GoogleLogin } from "@react-oauth/google";
 import { logo } from "./Navbar";
 
@@ -40,7 +40,7 @@ const SigninPage = () => {
 
   const postLogin = async () => {
     try {
-      const response = await axios.post("http://localhost:5003/auth/login", {
+      const response = await axios.post(`${SERVER_URL}/auth/login`, {
         ...login,
       });
       if (response?.data?.message) {

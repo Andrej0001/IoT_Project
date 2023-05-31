@@ -15,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 import { logo } from "./Navbar";
 import { toast } from "react-toastify";
 import { checkPasswordEquality } from "../helper/helper";
+import { SERVER_URL } from "../constant/constant";
 
 const theme = createTheme({
   components: {
@@ -85,10 +86,9 @@ const RegistrationComponent = () => {
         return;
       }
       setLoading(true);
-      const response = await axios.post(
-        "http://localhost:5003/auth/registration",
-        { ...registrationEvent }
-      );
+      const response = await axios.post(`${SERVER_URL}/auth/registration`, {
+        ...registrationEvent,
+      });
       if (response?.data?.message) {
         toast.success(response.data.message);
       }
